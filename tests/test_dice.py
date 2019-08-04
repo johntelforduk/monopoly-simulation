@@ -1,8 +1,7 @@
-# Test the
-# Based on, https://docs.python.org/3/library/unittest.html
+# Test the Monopoly dice module.
 
 import dice
-import unittest
+import unittest             # My tests based on, https://docs.python.org/3/library/unittest.html
 
 
 class TestDice(unittest.TestCase):
