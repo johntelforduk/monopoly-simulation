@@ -3,6 +3,8 @@
 import dice
 import board
 import cards
+import player
+import game
 import unittest                                 # These tests based on, https://docs.python.org/3/library/unittest.html
 
 
@@ -69,6 +71,12 @@ class TestBoard(unittest.TestCase):
         curr_square = test_board.backwards(curr_square, 4)
         self.assertEqual(test_board.squares[curr_square].name, 'Go')
 
+        # Test some colour group sizes.
+        self.assertEqual(test_board.colour_group_size['Brown'], 2)
+        self.assertEqual(test_board.colour_group_size['Orange'], 3)
+        self.assertEqual(test_board.colour_group_size['Yellow'], 3)
+        self.assertEqual(test_board.colour_group_size['Dark Blue'], 2)
+
     def test_find_square(self):
         test_board = board.Board()
 
@@ -116,7 +124,6 @@ class TestCards(unittest.TestCase):
         # There should be 16 Community Chest cards.
         self.assertEqual(len(test_community_chest.pack), 16)
 
-
     def test_take_card(self):
         test_chance = cards.CardPack('Chance', 'chance_cards.csv')
 
@@ -139,6 +146,27 @@ class TestCards(unittest.TestCase):
         # The top card should now be Go To Jail.
         this_card = test_chance.take_card()
         self.assertEqual(this_card.card_name[0:11], 'Go to jail.')
+
+
+class TestPlayer(unittest.TestCase):
+
+    def test_player(self):
+
+        test_player = player.Player()
+
+        self.assertEqual(test_player.money, 1500)
+        self.assertEqual(test_player.in_jail, False)
+        self.assertEqual(test_player.deeds, [])
+
+
+class TestGame(unittest.TestCase):
+
+    def test_game(self):
+
+        test_game = game.Game(4)
+
+        # There should be 4 player objects in the players list.
+        self.assertEqual(len(test_game.players), 4)
 
 
 if __name__ == '__main__':

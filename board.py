@@ -51,6 +51,14 @@ class PropertyDeed(Deed):
 
 class Board:
 
+    def calc_colour_group_sizes(self):
+        for s in self.squares:
+            if s.category == 'Property':                    # For property squares only (Old Kent Road, etc.)
+                if s.colour in self.colour_group_size:
+                    self.colour_group_size[s.colour] += 1   # Colour already in dictionary, so increment count.
+                else:
+                    self.colour_group_size[s.colour] = 1    # New colour, so add it.
+
     def __init__(self):
         self.squares = []                           # Each element will be an object specific to the type of square.
         self.colour_group_size = {}                 # Key=Colour, Value=Number of squares with that colour.
@@ -93,6 +101,7 @@ class Board:
                 line_no += 1
 
         fileobj.close()                                                         # Finished with the file, so close it.
+        self.calc_colour_group_sizes()
 
     def print_square(self, square_number):
         this_square = self.squares[square_number]
