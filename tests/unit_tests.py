@@ -69,6 +69,12 @@ class TestBoard(unittest.TestCase):
         curr_square = test_board.backwards(curr_square, 4)
         self.assertEqual(test_board.squares[curr_square].name, 'Go')
 
+        # Test some colour group sizes.
+        self.assertEqual(test_board.colour_group_size['Brown'], 2)
+        self.assertEqual(test_board.colour_group_size['Orange'], 3)
+        self.assertEqual(test_board.colour_group_size['Yellow'], 3)
+        self.assertEqual(test_board.colour_group_size['Dark Blue'], 2)
+
     def test_find_square(self):
         test_board = board.Board()
 
