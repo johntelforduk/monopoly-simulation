@@ -1,0 +1,17 @@
+Card Name,Category,Money Amount,Advance To
+Advance to Go,Advance,0,Go
+Go back to Old Kent Road,Other,0,n/a
+Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Other,0,n/a
+Pay hospital £100,Money,-100,n/a
+Doctor's fee. Pay £50,Money,-50,n/a
+Pay your insurance premium £50,Money,-50,n/a
+Bank error in your favour. Collect £200,Money,200,n/a
+Annuity matures. Collect £100,Money,100,n/a
+You inherit £100,Money,100,n/a
+From sale of stock you get £50,Money,50,n/a
+Receive interest on 7% preference shares: £25,Money,25,n/a
+Income tax refund. Collect £20,Money,20,n/a
+You have won second prize in a beauty contest. Collect £10,Money,10,n/a
+It is your birthday. Collect £10 from each player,Other,0,n/a
+Get out of jail free. This card may be kept until needed or sold,Keep Card,0,n/a
+Pay a £10 fine or take a Chance,Other,0,n/a

@@ -1,0 +1,17 @@
+Card Name,Category,Money Amount,Advance To
+Advance to Go,Advance,0,Go
+Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Other,0,n/a
+Advance to Pall Mall. If you pass Go collect £200,Advance,0,Pall Mall
+Take a trip to Marylebone Station and if you pass Go collect £200,Advance,0,Marylebone Station
+Advance to Trafalgar Square. If you pass Go collect £200,Advance,0,Trafalgar Square
+Advance to Mayfair,Advance,0,Mayfair
+Go back three spaces,Other,0,n/a
+Make general repairs on all of your houses. For each house pay £25. For each hotel pay £100,Other,0,n/a
+You are assessed for street repairs: £40 per house and £115 per hotel,Other,0,n/a
+Pay school fees of £150,Money,-150,n/a
+Drunk in charge fine £20,Money,-20,n/a
+Speeding fine £15,Money,-15,n/a
+Your building loan matures. Receive £150,Money,150,n/a
+You have won a crossword competition. Collect £100,Money,100,n/a
+Bank pays you dividend of £50,Money,50,n/a
+Get out of jail free. This card may be kept until needed or sold,Keep Card,0,n/a

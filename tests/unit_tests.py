@@ -2,7 +2,8 @@
 
 import dice
 import board
-import unittest                                 # My tests based on, https://docs.python.org/3/library/unittest.html
+import cards
+import unittest                                 # These tests based on, https://docs.python.org/3/library/unittest.html
 
 
 class TestDice(unittest.TestCase):
@@ -12,7 +13,7 @@ class TestDice(unittest.TestCase):
         test_die = dice.TwoDice()
         die_list = []
 
-        for i in range(100000):
+        for i in range(10000):
             die_list.append(test_die.roll_one_die())
         self.assertEqual(set(die_list), {1, 2, 3, 4, 5, 6})
 
@@ -23,7 +24,7 @@ class TestDice(unittest.TestCase):
         all_throws = []
         doubles = []
 
-        for i in range(100000):
+        for i in range(10000):
             test_throw = test_dice.roll_two_dice()
 
             all_throws.append(test_throw)               # Build this list using the returned value.
@@ -78,6 +79,66 @@ class TestBoard(unittest.TestCase):
 
         # There is no square as Nowhere Road, so should return None.
         self.assertEqual(test_board.find_square('Nowhere Road'), None)
+
+
+class TestCards(unittest.TestCase):
+
+    def test_chance_pack(self):
+
+        test_chance = cards.CardPack('Chance', 'chance_cards.csv')
+        test_board = board.Board()
+
+        for c in test_chance.pack:
+
+            # advance_to should be a square on the board for Advance cards.
+            if c.category == 'Advance':
+                self.assertEqual(test_board.find_square(c.advance_to) is not None, True)
+
+            # money_amount should not be zero for Money card.
+            elif c.category == 'Money':
+                self.assertEqual(c.money_amount != 0, True)
+
+    def test_community_chest_pack(self):
+
+        test_community_chest = cards.CardPack('Community Chest', 'community_chest_cards.csv')
+        test_board = board.Board()
+
+        for c in test_community_chest.pack:
+
+            # advance_to should be a square on the board for Advance cards.
+            if c.category == 'Advance':
+                self.assertEqual(test_board.find_square(c.advance_to) is not None, True)
+
+            # money_amount should not be zero for Money card.
+            elif c.category == 'Money':
+                self.assertEqual(c.money_amount != 0, True)
+
+        # There should be 16 Community Chest cards.
+        self.assertEqual(len(test_community_chest.pack), 16)
+
+
+    def test_take_card(self):
+        test_chance = cards.CardPack('Chance', 'chance_cards.csv')
+
+        # There should be 16 Chance cards.
+        self.assertEqual(len(test_chance.pack), 16)
+
+        # The top card in fresh Chance pack should be Go.
+        this_card = test_chance.take_card()
+        self.assertEqual(this_card.card_name, 'Advance to Go')
+
+        # Now there should be 15 Chance cards.
+        self.assertEqual(len(test_chance.pack), 15)
+
+        # Put the card back in the (bottom) of the pack.
+        test_chance.add_card(this_card)
+
+        # Now there should be 16 Chance cards again.
+        self.assertEqual(len(test_chance.pack), 16)
+
+        # The top card should now be Go To Jail.
+        this_card = test_chance.take_card()
+        self.assertEqual(this_card.card_name[0:11], 'Go to jail.')
 
 
 if __name__ == '__main__':
