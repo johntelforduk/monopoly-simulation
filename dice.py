@@ -3,10 +3,10 @@
 import random
 
 
-# Class for a pair of dice.
 class TwoDice:
 
     def __init__(self):
+
         self.this_throw = 0                 # Total value of this throw of the dice.
         self.is_a_double = False            # True iff the two thrown dice match.
 

@@ -12,22 +12,18 @@ class Game:
 
         self.num_players = num_players
         self.verbose = verbose                  # True means a lot of trace will be sent to stdout.
-        self.players = []                       # Each element is a player object.
 
         # Make a list of players.
+        self.players = []                       # Each element is a player object.
         for i in range(num_players):
             self.players.append(player.Player())
 
         self.board = board.Board()              # The game needs a board...
         self.dice = dice.TwoDice()              # ...and some dice.
 
-        # Create the Chance cards, and shuffle them.
-        self.chance = cards.CardPack('Chance', 'chance_cards.csv')
-        self.chance.shuffle()
-
-        # Create the Community Chest cards, and shuffle them.
-        self.community_chest = cards.CardPack('Community Chest', 'community_chest_cards.csv')
-        self.community_chest.shuffle()
+        # Create the card packs.
+        self.chance = cards.ChancePack(shuffle_it=True)
+        self.community_chest = cards.CommunityChestPack(shuffle_it=True)
 
         # These attributes are for collecting stats as the game is played.
         # Initialised to a list of zeros, one for each square on the board.
@@ -42,11 +38,9 @@ class Game:
     def print_player_status(self, this_player):
         print('Square =', self.board.squares[this_player.square].name)
 
-
     # TODO Method - go_to_jail.
 
     # TODO Method - land_on_square. If the player is not in jail, do the action(s) required by the square they are on.
-
 
     # Player takes a throw_dice_and_move of the game.
     def throw_dice_and_move(self, this_player):
@@ -73,7 +67,6 @@ class Game:
 
         if self.verbose:
             self.print_player_status(this_player)
-
 
         # TODO Act depending on the type of square they've landed on.
 

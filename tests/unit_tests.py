@@ -91,41 +91,28 @@ class TestBoard(unittest.TestCase):
 
 class TestCards(unittest.TestCase):
 
-    def test_chance_pack(self):
+    def test_card_packs(self):
 
-        test_chance = cards.CardPack('Chance', 'chance_cards.csv')
         test_board = board.Board()
+        test_chance = cards.ChancePack(shuffle_it=True)
+        test_community_chest = cards.CommunityChestPack(shuffle_it=True)
 
-        for c in test_chance.pack:
+        for pack in [test_chance.pack, test_community_chest.pack]:  # Test both of the card packs.
 
-            # advance_to should be a square on the board for Advance cards.
-            if c.category == 'Advance':
-                self.assertEqual(test_board.find_square(c.advance_to) is not None, True)
+            self.assertEqual(len(pack), 16)                         # There should be 16 cards in each pack.
 
-            # money_amount should not be zero for Money card.
-            elif c.category == 'Money':
-                self.assertEqual(c.money_amount != 0, True)
+            for card in pack:                                       # Test each card in each pack.
 
-    def test_community_chest_pack(self):
+                # advance_to should be a square on the board for Advance cards.
+                if card.category == 'Advance':
+                    self.assertEqual(test_board.find_square(card.advance_to) is not None, True)
 
-        test_community_chest = cards.CardPack('Community Chest', 'community_chest_cards.csv')
-        test_board = board.Board()
-
-        for c in test_community_chest.pack:
-
-            # advance_to should be a square on the board for Advance cards.
-            if c.category == 'Advance':
-                self.assertEqual(test_board.find_square(c.advance_to) is not None, True)
-
-            # money_amount should not be zero for Money card.
-            elif c.category == 'Money':
-                self.assertEqual(c.money_amount != 0, True)
-
-        # There should be 16 Community Chest cards.
-        self.assertEqual(len(test_community_chest.pack), 16)
+                # money_amount should not be zero for Money card.
+                elif card.category == 'Money':
+                    self.assertEqual(card.money_amount != 0, True)
 
     def test_take_card(self):
-        test_chance = cards.CardPack('Chance', 'chance_cards.csv')
+        test_chance = cards.ChancePack(shuffle_it=False)
 
         # There should be 16 Chance cards.
         self.assertEqual(len(test_chance.pack), 16)
@@ -164,7 +151,7 @@ class TestGame(unittest.TestCase):
 
     def test_game(self):
 
-        test_game = game.Game(4, False)     # 4 players, non-verbose mode.
+        test_game = game.Game(num_players=4, verbose=False)
 
         # The stats lists should have same number of elements as there are square on the board.
         self.assertEqual(len(test_game.land_on_frequency), len(test_game.board.squares))
