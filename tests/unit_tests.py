@@ -154,6 +154,7 @@ class TestPlayer(unittest.TestCase):
 
         test_player = player.Player()
 
+        # Test that default values for some attributes are correct for newly created player.
         self.assertEqual(test_player.money, 1500)
         self.assertEqual(test_player.in_jail, False)
         self.assertEqual(test_player.deeds, [])
@@ -163,7 +164,11 @@ class TestGame(unittest.TestCase):
 
     def test_game(self):
 
-        test_game = game.Game(4)
+        test_game = game.Game(4, False)     # 4 players, non-verbose mode.
+
+        # The stats lists should have same number of elements as there are square on the board.
+        self.assertEqual(len(test_game.land_on_frequency), len(test_game.board.squares))
+        self.assertEqual(len(test_game.turn_end_frequency), len(test_game.board.squares))
 
         # There should be 4 player objects in the players list.
         self.assertEqual(len(test_game.players), 4)
