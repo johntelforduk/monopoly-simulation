@@ -121,7 +121,7 @@ class Board:
         for i in range(len(self.squares)):
             self.print_square(i)
 
-    def forwards(self, current, spaces):
+    def forwards(self, current: int, spaces: int) -> int:
         return (current + spaces) % len(self.squares)
 
     # TODO Come up with a calculated way of moving backwards.

@@ -22,3 +22,6 @@ class TwoDice:
         self.this_throw = first_die + second_die
         self.is_a_double = (first_die == second_die)
         return self.this_throw
+
+    def print_dice(self):
+        print('Dice throw =', self.this_throw)
