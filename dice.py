@@ -3,19 +3,18 @@
 import random
 
 
-# Class for a pair of dice.
 class TwoDice:
 
     def __init__(self):
         self.this_throw = 0                 # Total value of this throw of the dice.
         self.is_a_double = False            # True iff the two thrown dice match.
 
-    # Roll a single die.
-    def roll_one_die(self):
+    def roll_one_die(self) -> int:
+        """Roll a single die."""
         return random.randint(1, 6)
 
-    # Roll a pair of dice.
-    def roll_two_dice(self):
+    def roll_two_dice(self) -> int:
+        """Roll a pair of dice."""
         first_die = self.roll_one_die()
         second_die = self.roll_one_die()
 

@@ -4,7 +4,7 @@
 # Squares on the board.
 class Square:
 
-    def __init__(self, name, category, colour, deed):
+    def __init__(self, name: str, category: str, colour: str, deed):
         self.name = name                                # Old Kent Road, Electric Company, etc.
         self.category = category                        # Go, Chance, Property, etc.
         self.colour = colour                            # Background colour of the square.
@@ -22,7 +22,7 @@ class Square:
 # Includes Properties (Old Kent Road, etc), Utilities and Stations.
 class Deed:
 
-    def __init__(self, name, cost):
+    def __init__(self, name: str, cost: int):
         self.name = name                                # For example 'Old Kent Road'.
         self.cost = cost                                # Normal cost of the deed.
         self.mortgage_value = int(cost / 2)             # Rules of game say mortgage is half normal cost of deed.
@@ -74,21 +74,18 @@ class Board:
 
                     # If this row from the CSV file is for a property, then add a Property object to the list.
                     if square_category == 'Property':
-                        this_deed = PropertyDeed(parsed_line[0],                # Name.
-                                                 int(parsed_line[3]),           # Cost.
-                                                 int(parsed_line[5]),           # House Price.
-                                                 int(parsed_line[6]),           # Site Rent.
-                                                 int(parsed_line[7]),           # One House Rent.
-                                                 int(parsed_line[8]),           # Two House Rent.
-                                                 int(parsed_line[9]),           # Three House Rent.
-                                                 int(parsed_line[10]),          # Four House Rent.
-                                                 int(parsed_line[11])           # Hotel Rent.
-                                                 )
+                        this_deed = PropertyDeed(name=parsed_line[0],
+                                                 cost=int(parsed_line[3]),
+                                                 house_price=int(parsed_line[5]),
+                                                 site_rent=int(parsed_line[6]),
+                                                 one_house_rent=int(parsed_line[7]),
+                                                 two_houses_rent=int(parsed_line[8]),
+                                                 three_houses_rent=int(parsed_line[9]),
+                                                 four_houses_rent=int(parsed_line[10]),
+                                                 hotel_rent=int(parsed_line[11]))
                     elif square_category in {'Station', 'Utility'}:
-                        this_deed = Deed(parsed_line[0],                        # Name.
-                                         int(parsed_line[3])                    # Cost.
-                                         )
-
+                        this_deed = Deed(name=parsed_line[0],
+                                         cost=int(parsed_line[3]))
                     else:                                                       # Go, Chance, etc.
                         this_deed = None                                        # This square has no deed.
 
@@ -103,7 +100,7 @@ class Board:
         fileobj.close()                                                         # Finished with the file, so close it.
         self.calc_colour_group_sizes()
 
-    def print_square(self, square_number):
+    def print_square(self, square_number: int):
         this_square = self.squares[square_number]
         print('Square Number=', square_number,
               '  Name =', this_square.name,
@@ -124,19 +121,27 @@ class Board:
     def forwards(self, current: int, spaces: int) -> int:
         return (current + spaces) % len(self.squares)
 
-    # TODO Come up with a calculated way of moving backwards.
-    def backwards(self, current, spaces):
+    # TODO Come up with a calculated way of moving backwards, rather than this iterative approach.
+    def backwards(self, current: int, spaces: int) -> int:
         for i in range(spaces):
             current -= 1
             if current < 0:
                 current = len(self.squares) - 1
         return current
 
-    # Return the square number of parm name. Return None is no such square with that name.
-    def find_square(self, target_name):
+    def find_square(self, target_name: str) -> int:
+        """Return the square index of the parm name. Return None if no such square with that name."""
         found_square_num = None
         for i in range(len(self.squares)):
             if target_name == self.squares[i].name:
                 found_square_num = i
                 break
         return found_square_num
+
+    def index_to_square(self, this_index: int) -> Square:
+        """Return the square with parm index number."""
+        return self.squares[this_index]
+
+    def index_to_square_name(self, this_index: int) -> str:
+        """Return the name of the square with parm index number."""
+        return self.index_to_square(this_index).name

@@ -2,9 +2,10 @@
 
 import cards
 
+chance_cards = cards.ChancePack(shuffle_it=True)
+chance_cards.print_pack()
 
-chance_cards = cards.CardPack('Chance', 'chance_cards.csv')
-chance_cards.print_pack()
 print()
-chance_cards.shuffle()
-chance_cards.print_pack()
+
+community_chest_cards = cards.CommunityChestPack(shuffle_it=True)
+community_chest_cards.print_pack()

@@ -10,7 +10,7 @@ def list_to_percentages(this_list):
     return list(map(percentage, this_list))
 
 
-test_game = game.Game(1, False)                 # 1 player game, not in verbose mode.
+test_game = game.Game(1, verbose=False)
 
 # Throw dice and move player piece some number of times.
 for i in range(1000):
