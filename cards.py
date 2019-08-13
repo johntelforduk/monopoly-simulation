@@ -5,7 +5,7 @@ import random                               # Needed to shuffle the Chance and C
 
 class Card:
 
-    def __init__(self, pack_name, card_name, category, money_amount, advance_to):
+    def __init__(self, pack_name: str, card_name: str, category: str, money_amount: int, advance_to: str):
         # Chance or Community Chest.
         # Need the pack name on the card, so the we know which pack to return it to after player is finished with it.
         self.pack_name = pack_name
@@ -18,8 +18,8 @@ class Card:
         assert(self.pack_name in {'Chance', 'Community Chest'})
         assert(self.category in {'Money', 'Advance', 'Keep Card', 'Other'})
 
-    # Print out info about the parm card to stdout.
-    def print_card(self, print_pack):
+    def print_card(self, print_pack: bool):
+        """Print out info about the parm card to stdout."""
         if print_pack:
             print('Pack =', self.pack_name, '  ', end='')
 
@@ -36,12 +36,12 @@ class Card:
 # Parent class for packs of cards.
 class CardPack:
 
-    # Add parm card to bottom of pack.
     def add_card(self, new_card):
+        """Add parm card to bottom of pack."""
         self.pack.append(new_card)
 
-    # Shuffle the pack of cards.
     def shuffle(self):
+        """Shuffle the pack of cards."""
         random.shuffle(self.pack)
 
     def __init__(self, pack_name: str, filename: str):
@@ -55,23 +55,22 @@ class CardPack:
             for line in fileobj:
                 if line_no != 1:                            # First line of CSV is a header, so skip it.
 
-                    # TODO Remove the CR from end of line.
                     parsed_line = line.rstrip('\n').split(',')
 
-                    self.add_card(Card(pack_name,
-                                       parsed_line[0],      # Card name.
-                                       parsed_line[1],      # Category.
-                                       parsed_line[2],      # Money amount.
-                                       parsed_line[3]))     # Advance to.
+                    self.add_card(Card(pack_name=pack_name,
+                                       card_name=parsed_line[0],
+                                       category=parsed_line[1],
+                                       money_amount=int(parsed_line[2]),
+                                       advance_to=parsed_line[3]))
                 line_no += 1
 
     def print_pack(self):
         print(self.pack_name)
         for p in self.pack:
-            p.print_card(False)         # Don't print the Pack Name.
+            p.print_card(print_pack=False)
 
-    # Returns one card from top of pack. Removes the card from pack.
     def take_card(self):
+        """Returns one card from top of pack. Removes the card from pack."""
         return self.pack.pop(0)
 
 
@@ -81,7 +80,7 @@ class ChancePack(CardPack):
 
     def __init__(self, shuffle_it: bool):
 
-        CardPack.__init__(self, 'Chance', 'chance_cards.csv')
+        CardPack.__init__(self, pack_name='Chance', filename='chance_cards.csv')
         if shuffle_it:
             self.shuffle()
 
@@ -91,6 +90,6 @@ class CommunityChestPack(CardPack):
 
     def __init__(self, shuffle_it: bool):
 
-        CardPack.__init__(self, 'Community Chest', 'community_chest_cards.csv')
+        CardPack.__init__(self, pack_name='Community Chest', filename='community_chest_cards.csv')
         if shuffle_it:
             self.shuffle()

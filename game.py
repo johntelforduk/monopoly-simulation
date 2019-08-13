@@ -35,15 +35,12 @@ class Game:
         """Return the square that the parm player is currently on."""
         return self.board.index_to_square(this_player.square)
 
-    # Return the name of the square that the parm player is currently on.
     def player_square_name(self, this_player: player.Player) -> str:
+        """Return the name of the square that the parm player is currently on."""
         return self.player_square(this_player).name
 
     def print_player_status(self, this_player: player.Player):
         print('Square =', self.player_square_name(this_player))
-
-    def xxx(self):
-        self.player_square()
 
     # TODO Add method - check_buildable_properties
 
@@ -123,5 +120,3 @@ class Game:
             if self.dice.is_a_double:
                 this_player.in_jail = False
             return self.dice.this_throw
-
-
