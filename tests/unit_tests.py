@@ -46,30 +46,31 @@ class TestBoard(unittest.TestCase):
         # Square 0 should be Go.
         curr_square = 0
         self.assertEqual(test_board.squares[curr_square].name, 'Go')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Go')
 
         # 3 squares forwards from Go should be Whitechapel Road.
         curr_square = test_board.forwards(curr_square, 3)
-        self.assertEqual(test_board.squares[curr_square].name, 'Whitechapel Road')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Whitechapel Road')
 
         # 2 squares backwards from Whitechapel Road should be Old Kent Road.
         curr_square = test_board.backwards(curr_square, 2)
-        self.assertEqual(test_board.squares[curr_square].name, 'Old Kent Road')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Old Kent Road')
 
         # 2 squares backwards from Old Kent Road should be Mayfair.
         curr_square = test_board.backwards(curr_square, 2)
-        self.assertEqual(test_board.squares[curr_square].name, 'Mayfair')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Mayfair')
 
         # 4 squares backwards from Mayfair should be Liverpool Street Station.
         curr_square = test_board.backwards(curr_square, 4)
-        self.assertEqual(test_board.squares[curr_square].name, 'Liverpool Street Station')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Liverpool Street Station')
 
         # 9 squares forwards from Liverpool Street Station should be Income Tax (pay £200).
         curr_square = test_board.forwards(curr_square, 9)
-        self.assertEqual(test_board.squares[curr_square].name, 'Income Tax (pay £200)')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Income Tax (pay £200)')
 
         # 4 squares backwards from Income Tax (pay £200) should be Go.
         curr_square = test_board.backwards(curr_square, 4)
-        self.assertEqual(test_board.squares[curr_square].name, 'Go')
+        self.assertEqual(test_board.index_to_square_name(curr_square), 'Go')
 
         # Test some colour group sizes.
         self.assertEqual(test_board.colour_group_size['Brown'], 2)
@@ -160,6 +161,55 @@ class TestGame(unittest.TestCase):
         # There should be 4 player objects in the players list.
         self.assertEqual(len(test_game.players), 4)
 
+        # Pick one of the players to continue testing with.
+        test_player = test_game.players[0]
+
+        # Check player is currently on Go square.
+        # There are 2 different ways to test this. We'll use the 2nd method for rest of the tests.
+        self.assertEqual(test_game.board.index_to_square_name(test_player.square), 'Go')
+        self.assertEqual(test_game.player_square_name(test_player), 'Go')
+
+        # Check that advance to Pall Mall from Go works OK. This does not involve going past Go.
+        passed_go = test_game.advance_to_square(test_player, 'Pall Mall')
+        self.assertEqual(test_game.player_square_name(test_player), 'Pall Mall')
+        self.assertEqual(passed_go, False)
+
+        # Advance from Pall Mall to Water Works. Again this does not involve going past Go.
+        passed_go = test_game.advance_to_square(test_player, 'Water Works')
+        self.assertEqual(test_game.player_square_name(test_player), 'Water Works')
+        self.assertEqual(passed_go, False)
+
+        # Advance from Water Works to Old Kent Road. This DOES involve going past Go.
+        passed_go = test_game.advance_to_square(test_player, 'Old Kent Road')
+        self.assertEqual(test_game.player_square_name(test_player), 'Old Kent Road')
+        self.assertEqual(passed_go, True)
+
+    def test_jail(self):
+        test_game = game.Game(num_players=1, verbose=False)
+        test_player = test_game.players[0]
+
+        # Send the test player to Jail.
+        test_game.go_to_jail(test_player)
+        self.assertEqual(test_game.player_square_name(test_player), 'Jail')
+        self.assertEqual(test_player.in_jail, True)
+        self.assertEqual(test_player.double_attempts_left, 3)
+
+        # Do try_to_leave_jail max of 3 times, they should always be out by then.
+        # In case they got a lucky triple on first attempt, do this test many times.
+        for t in range(1000):
+            test_game.go_to_jail(test_player)                   # Put the player back in Jail.
+            for i in range(3):                                  # Try to leave (up to) 3 times.
+                test_game.try_to_leave_jail(test_player)
+                if not test_player.in_jail:                     # If let of jail, leave the loop early.
+                    break
+
+            # If he's still in Jail after 3 attempts, then next attempt will let him out.
+            if test_player.in_jail:
+                test_game.try_to_leave_jail(test_player)
+
+            self.assertEqual(test_player.in_jail, False)
+
+        # TODO Unit tests - Check that someone with a Get Out Jail card leave Jail on first attempt.
 
 if __name__ == '__main__':
     unittest.main()
