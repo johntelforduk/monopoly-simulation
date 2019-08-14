@@ -11,12 +11,12 @@ class Card:
         self.pack_name = pack_name
 
         self.card_name = card_name          # Advance to Bond Street', etc.
-        self.category = category            # Money, Advance, Keep Card, Other
-        self.money_amount = money_amount    # (+ve for player gains money, -ve for loose money)
+        self.category = category            # Money, Advance, Keep Card, Jail, Other
+        self.money_amount = money_amount    # (+ve for player gains money, -ve for lose money)
         self.advance_to = advance_to        # Name of square to advance to.
 
         assert(self.pack_name in {'Chance', 'Community Chest'})
-        assert(self.category in {'Money', 'Advance', 'Keep Card', 'Other'})
+        assert(self.category in {'Money', 'Advance', 'Keep Card', 'Jail', 'Other'})
 
     def print_card(self, print_pack: bool):
         """Print out info about the parm card to stdout."""

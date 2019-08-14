@@ -1,6 +1,6 @@
 Card Name,Category,Money Amount,Advance To
 Advance to Go,Advance,0,Go
-Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Other,0,n/a
+Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Jail,0,n/a
 Advance to Pall Mall. If you pass Go collect £200,Advance,0,Pall Mall
 Take a trip to Marylebone Station and if you pass Go collect £200,Advance,0,Marylebone Station
 Advance to Trafalgar Square. If you pass Go collect £200,Advance,0,Trafalgar Square
