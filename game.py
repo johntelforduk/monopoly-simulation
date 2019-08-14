@@ -109,7 +109,21 @@ class Game:
            Return value is any roll of the dice that they did in Jail."""
 
         assert this_player.in_jail              # Only a player in Jail should try to leave it.
-        # TODO Use the player's Get Out Of Jail card, if they have one.
+
+        # Use the player's Get Out Of Jail card, if they have one.
+        if len(this_player.cards) > 0:
+            removed_card = this_player.remove_card()
+            assert (removed_card.card_name[0:21] == 'Get out of jail free.')
+
+            # Put the card back in its home pack.
+            if removed_card.pack_name == 'Chance':
+                self.chance.add_card(removed_card)
+            else:
+                self.community_chest.add_card(removed_card)
+
+            # Let the player out of Jail.
+            this_player.in_jail = False
+            return 0
 
         # Let the player out if he has made three attempts already.
         if this_player.double_attempts_left == 0:
