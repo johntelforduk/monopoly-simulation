@@ -146,6 +146,23 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(test_player.money, 1500)
         self.assertEqual(test_player.in_jail, False)
         self.assertEqual(test_player.deeds, [])
+        self.assertEqual(test_player.cards, [])
+
+        # Find the Get Out Of Jail Card in a pack of Chance cards.
+        test_chance = cards.ChancePack(shuffle_it=False)
+        test_card = None
+        for c in test_chance.pack:
+            if c.category == 'Keep Card':
+                test_card = c
+                break
+
+        test_player.add_card(test_card)
+        self.assertEqual(len(test_player.cards), 1)     # Player should now have 1 card.
+
+        # Take the card away from the player.
+        removed_card = test_player.remove_card()
+        self.assertEqual(len(test_player.cards), 0)     # Player should now have no cards.
+        self.assertEqual(removed_card, test_card)       # Removed card should be same as added card.
 
 
 class TestGame(unittest.TestCase):

@@ -74,9 +74,14 @@ class Game:
         if self.verbose:
             self.print_player_status(this_player)
 
-        # TODO Act depending on the type of square they've landed on.
+
+
+
+    # TODO Act depending on the type of square they've landed on.
 
     # TODO Update turn_end_frequency.
+
+
 
     def advance_to_square(self, this_player: player.Player, target_square: str) -> bool:
         """Move the parm player directly to the parm square.

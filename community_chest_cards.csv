@@ -1,7 +1,7 @@
 Card Name,Category,Money Amount,Advance To
 Advance to Go,Advance,0,Go
 Go back to Old Kent Road,Other,0,n/a
-Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Other,0,n/a
+Go to jail. Move directly to jail. Do not pass Go. Do not collect £200,Jail,0,n/a
 Pay hospital £100,Money,-100,n/a
 Doctor's fee. Pay £50,Money,-50,n/a
 Pay your insurance premium £50,Money,-50,n/a

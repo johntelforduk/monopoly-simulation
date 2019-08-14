@@ -1,5 +1,6 @@
 # Monopoly player.
 
+import cards                            # Needed to provide type information for one of the methods.
 
 class Player:
 
@@ -15,3 +16,14 @@ class Player:
         # TODO add list of desired_properties.
 
         # TODO add risk_appetite.
+
+    def add_card(self, this_card):
+        """Add parm card to player's cards."""
+        assert (this_card.category == 'Keep Card')                      # Should be a keep-able card.
+        self.cards.append(this_card)
+
+    def remove_card(self) -> cards.Card:
+        """Remove card from the player's cards."""
+        assert (len(self.cards) > 0)                                    # Must be at least one card held by the player.
+        this_card = self.cards.pop(0)
+        return this_card

@@ -3,12 +3,19 @@ import numpy as np
 import game
 
 
+
+
 # Convert the parm list of numbers to a list of percentages of the sum of the list.
 # For example list_to_percentages([0.5, 0.5, ,2,3,4]) returns [5, 5, 20, 30, 40].
 def list_to_percentages(this_list):
     percentage = lambda x: 100 * x / sum(this_list)
     return list(map(percentage, this_list))
 
+print("""Decisions & Assumptions in this experiment
+1. The experiment is one player going round the board for a large number of turns. 
+2. There is no buying or selling of properties.
+2. Whenever a player goes to Jail, if he holds a Get Out Of Jail card, he will use it to leave Jail immediately.
+   Otherwise, he will attempt to throw doubles in order to try to leave Jail. After 3 unsuccessful attempts to throw doubles, he will leave Jail on his next turn.""")
 
 test_game = game.Game(1, verbose=False)
 
