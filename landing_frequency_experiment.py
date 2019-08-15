@@ -22,8 +22,8 @@ test_game = game.Game(num_players=1, verbose=False)
 for turns in range(1000000):
     test_game.take_a_turn(test_game.players[0])
 
-land_on_percent = list_to_percentages(test_game.land_on_frequency)  # Work out frequency percentages.
-end_on_percent = list_to_percentages(test_game.turn_end_frequency)  # Work out frequency percentages.
+land_on_percent = list_to_percentages(test_game.land_on_count)  # Work out frequency percentages.
+end_on_percent = list_to_percentages(test_game.turn_end_count)  # Work out frequency percentages.
 
 # Make a label list of square names for the graph.
 label = []
