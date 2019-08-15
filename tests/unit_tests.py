@@ -201,7 +201,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(test_game.player_square_name(test_player), 'Old Kent Road')
         self.assertEqual(passed_go, True)
 
-    def test_jail(self):
+    def test_go_to_jail(self):
         test_game = game.Game(num_players=1, verbose=False)
         test_player = test_game.players[0]
 
@@ -211,10 +211,14 @@ class TestGame(unittest.TestCase):
         self.assertEqual(test_player.in_jail, True)
         self.assertEqual(test_player.double_attempts_left, 3)
 
-        # Do try_to_leave_jail max of 3 times, they should always be out by then.
-        # In case they got a lucky triple on first attempt, do this test many times.
-        for t in range(1000):
-            test_game.go_to_jail(test_player)                   # Put the player back in Jail.
+    # Do try_to_leave_jail max of 3 times, they should always be out by then.
+    # In case they got a lucky triple on first attempt, do this test many times.
+    def test_try_to_leave_jail(self):
+        for t in range(100):
+            test_game = game.Game(num_players=1, verbose=False)
+            test_player = test_game.players[0]
+
+            test_game.go_to_jail(test_player)                   # Put the player in Jail.
             for i in range(3):                                  # Try to leave (up to) 3 times.
                 test_game.try_to_leave_jail(test_player)
                 if not test_player.in_jail:                     # If let of jail, leave the loop early.
@@ -226,7 +230,31 @@ class TestGame(unittest.TestCase):
 
             self.assertEqual(test_player.in_jail, False)
 
-        # TODO Unit tests - Check that someone with a Get Out Jail card leave Jail on first attempt.
+    # Check that someone with a Get Out Jail card leave Jail on first attempt.
+    def test_get_out_of_jail_card(self):
+        test_game = game.Game(num_players=1, verbose=False)
+        test_player = test_game.players[0]
+
+        # Find the Get Out Of Jail Card in a pack of Community Chest cards, and give it to the test player.
+        test_card = test_game.community_chest.take_card()
+        while test_card.category != 'Keep Card':
+            test_card = test_game.community_chest.take_card()
+        test_player.add_card(test_card)
+        self.assertEqual(len(test_player.cards), 1)         # Player should have 1 card.
+
+        # Send the test player to Jail.
+        test_game.go_to_jail(test_player)
+        self.assertEqual(test_player.in_jail, True)         # Player should be in Jail.
+
+        # The Get Out Of Jail Free card should mean that he gets out of Jail on 1st attempt.
+        pack_size = len(test_game.community_chest.pack)
+        test_game.try_to_leave_jail(test_player)
+        self.assertEqual(test_player.in_jail, False)        # Player should be out of Jail.
+        self.assertEqual(len(test_player.cards), 0)         # Player should have no cards.
+
+        # Pack should have grown by 1 card due to Get Out Of Jail Free card being returned to it.
+        self.assertEqual(len(test_game.community_chest.pack) - pack_size, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

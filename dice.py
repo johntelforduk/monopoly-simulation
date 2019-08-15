@@ -23,4 +23,7 @@ class TwoDice:
         return self.this_throw
 
     def print_dice(self):
-        print('Dice throw =', self.this_throw)
+        if self.is_a_double:
+            print('Dice throw =', self.this_throw, '(a double)')
+        else:
+            print('Dice throw =', self.this_throw)
