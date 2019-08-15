@@ -201,7 +201,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(test_game.player_square_name(test_player), 'Old Kent Road')
         self.assertEqual(passed_go, True)
 
-    def test_jail(self):
+    def test_go_to_jail(self):
         test_game = game.Game(num_players=1, verbose=False)
         test_player = test_game.players[0]
 
@@ -211,10 +211,14 @@ class TestGame(unittest.TestCase):
         self.assertEqual(test_player.in_jail, True)
         self.assertEqual(test_player.double_attempts_left, 3)
 
-        # Do try_to_leave_jail max of 3 times, they should always be out by then.
-        # In case they got a lucky triple on first attempt, do this test many times.
-        for t in range(1000):
-            test_game.go_to_jail(test_player)                   # Put the player back in Jail.
+    # Do try_to_leave_jail max of 3 times, they should always be out by then.
+    # In case they got a lucky triple on first attempt, do this test many times.
+    def test_try_to_leave_jail(self):
+        for t in range(100):
+            test_game = game.Game(num_players=1, verbose=False)
+            test_player = test_game.players[0]
+
+            test_game.go_to_jail(test_player)                   # Put the player in Jail.
             for i in range(3):                                  # Try to leave (up to) 3 times.
                 test_game.try_to_leave_jail(test_player)
                 if not test_player.in_jail:                     # If let of jail, leave the loop early.
@@ -250,6 +254,7 @@ class TestGame(unittest.TestCase):
 
         # Pack should have grown by 1 card due to Get Out Of Jail Free card being returned to it.
         self.assertEqual(len(test_game.community_chest.pack) - pack_size, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

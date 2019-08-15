@@ -26,9 +26,9 @@ class Card:
         print('Card =', self.card_name, '  Category =', self.category, end='')
 
         if self.category == 'Money':
-            print('  Money Amount =', self.money_amount)
+            print('   Money Amount =', self.money_amount)
         elif self.category == 'Advance':
-            print('  To =', self.advance_to)
+            print('   To =', self.advance_to)
         else:
             print()
 
@@ -69,7 +69,7 @@ class CardPack:
         for p in self.pack:
             p.print_card(print_pack=False)
 
-    def take_card(self):
+    def take_card(self) -> Card:
         """Returns one card from top of pack. Removes the card from pack."""
         return self.pack.pop(0)
 
