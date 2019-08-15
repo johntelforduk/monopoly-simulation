@@ -172,8 +172,8 @@ class TestGame(unittest.TestCase):
         test_game = game.Game(num_players=4, verbose=False)
 
         # The stats lists should have same number of elements as there are square on the board.
-        self.assertEqual(len(test_game.land_on_frequency), len(test_game.board.squares))
-        self.assertEqual(len(test_game.turn_end_frequency), len(test_game.board.squares))
+        self.assertEqual(len(test_game.land_on_count), len(test_game.board.squares))
+        self.assertEqual(len(test_game.turn_end_count), len(test_game.board.squares))
 
         # There should be 4 player objects in the players list.
         self.assertEqual(len(test_game.players), 4)

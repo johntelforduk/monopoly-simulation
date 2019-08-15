@@ -27,9 +27,9 @@ class Game:
 
         # These attributes are for collecting stats as the game is played.
         # Initialised to a list of zeros, one for each square on the board.
-        # So turn_end_frequency[0] is number of times a turn has ended on Go, etc.
-        self.land_on_frequency = [0] * len(self.board.squares)
-        self.turn_end_frequency = [0] * len(self.board.squares)
+        # So turn_end_count[0] is number of times a turn has ended on Go, etc.
+        self.land_on_count = [0] * len(self.board.squares)
+        self.turn_end_count = [0] * len(self.board.squares)
 
     def player_square(self, this_player: player.Player) -> board.Square:
         """Return the square that the parm player is currently on."""
@@ -51,7 +51,7 @@ class Game:
         """When a player lands on a new square, update stats and (possibly) print some status to stdout."""
 
         # Add to stats about squares landed on.
-        self.land_on_frequency[this_player.square] += 1
+        self.land_on_count[this_player.square] += 1
 
         if self.verbose:
             self.print_player_status(this_player)
@@ -102,19 +102,10 @@ class Game:
                     self.go_to_jail(this_player)
                     turn_continues = False
 
-#                    # Add to stats about squares landed on.
-#                    self.land_on_frequency[this_player.square] += 1
-
                 # At last, we can move the player forward according to the latest dice throw.
                 else:
                     this_player.square = self.board.forwards(current=this_player.square, spaces=self.dice.this_throw)
                     self.player_put_on_square(this_player)      # Update stats, print player status.
-
-#                    # Add to stats about squares landed on.
-#                    self.land_on_frequency[this_player.square] += 1
-
-                    # if self.verbose:
-                    #     self.print_player_status(this_player)
 
                     # Take action depending on the type of square they've landed on.
                     self.landed_on_a_square(this_player)
@@ -128,7 +119,7 @@ class Game:
                 turn_continues = False
 
         # Add to stats about squares that turns end on.
-        self.turn_end_frequency[this_player.square] += 1
+        self.turn_end_count[this_player.square] += 1
 
         if self.verbose:
             print('Turn over.')
