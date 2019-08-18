@@ -1,0 +1,185 @@
+Decisions & Assumptions.
+1. The program sends one player around the board for a specified number of turns. 
+2. There is no buying or selling of properties.
+2. Whenever the player goes to Jail, if he holds a Get Out Of Jail card, he will use it to leave Jail immediately.
+   Otherwise, he will attempt to throw doubles in order to try to leave Jail.
+   After 3 unsuccessful attempts to throw doubles, he will leave Jail on his next turn.
+
+New turn.  Square = Go
+Dice throw = 10
+Square = Jail
+Turn over.
+
+New turn.  Square = Jail
+Dice throw = 7
+Square = Community Chest 2
+Pack = Community Chest   Card = Income tax refund. Collect £20   Category = Money   Money Amount = 20
+Turn over.
+
+New turn.  Square = Community Chest 2
+Dice throw = 7
+Square = Trafalgar Square
+Turn over.
+
+New turn.  Square = Trafalgar Square
+Dice throw = 7
+Square = Regent Street
+Turn over.
+
+New turn.  Square = Regent Street
+Dice throw = 10
+Square = Old Kent Road
+Turn over.
+
+New turn.  Square = Old Kent Road
+Dice throw = 9
+Square = Jail
+Turn over.
+
+New turn.  Square = Jail
+Dice throw = 4 (a double)
+Square = Northumberland Avenue
+Dice throw = 3
+Square = Community Chest 2
+Pack = Community Chest   Card = Get out of jail free. This card may be kept until needed or sold   Category = Keep Card
+Turn over.
+
+New turn.  Square = Community Chest 2
+Dice throw = 7
+Square = Trafalgar Square
+Turn over.
+
+New turn.  Square = Trafalgar Square
+Dice throw = 6
+Square = Go To Jail
+Sent to Jail!!!
+Square = Jail
+Turn over.
+
+New turn.  Square = Jail (in jail).
+Used a Get Of Jail Free Card to leave Jail.
+Dice throw = 5
+Square = Marylebone Station
+Turn over.
+
+New turn.  Square = Marylebone Station
+Dice throw = 10
+Square = Fenchurch St Station
+Turn over.
+
+New turn.  Square = Fenchurch St Station
+Dice throw = 5
+Square = Go To Jail
+Sent to Jail!!!
+Square = Jail
+Turn over.
+
+New turn.  Square = Jail (in jail).
+Attempting to get out of jail with a dice roll. Dice throw = 3
+Turn over.
+
+New turn.  Square = Jail (in jail).
+Attempting to get out of jail with a dice roll. Dice throw = 4
+Turn over.
+
+New turn.  Square = Jail (in jail).
+Attempting to get out of jail with a dice roll. Dice throw = 6
+Turn over.
+
+New turn.  Square = Jail (in jail).
+Let out of Jail because they have made 3 attempts at doubles already.
+Dice throw = 3
+Square = Whitehall
+Turn over.
+
+New turn.  Square = Whitehall
+Dice throw = 5
+Square = Marlborough Street
+Turn over.
+
+New turn.  Square = Marlborough Street
+Dice throw = 6
+Square = Trafalgar Square
+Turn over.
+
+New turn.  Square = Trafalgar Square
+Dice throw = 7
+Square = Regent Street
+Turn over.
+
+New turn.  Square = Regent Street
+Dice throw = 10 (a double)
+Square = Old Kent Road
+Dice throw = 9
+Square = Jail
+Turn over.
+
+New turn.  Square = Jail
+Dice throw = 5
+Square = Marylebone Station
+Turn over.
+
+New turn.  Square = Marylebone Station
+Dice throw = 7
+Square = Chance 2
+Pack = Chance   Card = Go back three spaces   Category = Other
+Square = Vine Street
+Turn over.
+
+New turn.  Square = Vine Street
+Dice throw = 7
+Square = Leicester Square
+Turn over.
+
+New turn.  Square = Leicester Square
+Dice throw = 8
+Square = Bond Street
+Turn over.
+
+New turn.  Square = Bond Street
+Dice throw = 8
+Square = Community Chest 1
+Pack = Community Chest   Card = Pay hospital £100   Category = Money   Money Amount = -100
+Turn over.
+
+Land On   Turn End On   Square
+  0.00%   0.00%         Go
+  7.41%   4.00%         Old Kent Road
+  3.70%   4.00%         Community Chest 1
+  0.00%   0.00%         Whitechapel Road
+  0.00%   0.00%         Income Tax (pay £200)
+  0.00%   0.00%         Kings Cross Station
+  0.00%   0.00%         The Angel Islington
+  0.00%   0.00%         Chance 1
+  0.00%   0.00%         Euston Road
+  0.00%   0.00%         Pentonville Road
+  18.52%   32.00%         Jail
+  0.00%   0.00%         Pall Mall
+  0.00%   0.00%         Electric Company
+  3.70%   4.00%         Whitehall
+  3.70%   0.00%         Northumberland Avenue
+  7.41%   8.00%         Marylebone Station
+  0.00%   0.00%         Bow Street
+  7.41%   8.00%         Community Chest 2
+  3.70%   4.00%         Marlborough Street
+  3.70%   4.00%         Vine Street
+  0.00%   0.00%         Free Parking
+  0.00%   0.00%         The Strand
+  3.70%   0.00%         Chance 2
+  0.00%   0.00%         Fleet Street
+  11.11%   12.00%         Trafalgar Square
+  3.70%   4.00%         Fenchurch St Station
+  3.70%   4.00%         Leicester Square
+  0.00%   0.00%         Coventry Street
+  0.00%   0.00%         Water Works
+  0.00%   0.00%         Piccadilly
+  7.41%   0.00%         Go To Jail
+  7.41%   8.00%         Regent Street
+  0.00%   0.00%         Oxford Street
+  0.00%   0.00%         Community Chest 3
+  3.70%   4.00%         Bond Street
+  0.00%   0.00%         Liverpool Street Station
+  0.00%   0.00%         Chance 3
+  0.00%   0.00%         Park Lane
+  0.00%   0.00%         Super Tax (pay £100)
+  0.00%   0.00%         Mayfair
