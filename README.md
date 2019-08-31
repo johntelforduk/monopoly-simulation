@@ -4,7 +4,8 @@ Simulation of the popular property trading game.
 #### Roadmap
 1. DONE: Player movement mechanics. Board and dice. Chance & Community Chest for cards which move the player. Go To Jail and different ways of leaving jail.
 2. DONE: Work out square frequencies. How often do players land on each square, and how often do they end their turn on each square. Graphing of results.
-3. TO DO: Financial parts of the game. Deed buying, house building, rent calculation and collection. Chance and Community Chest cards with financial implications.
+3. DONE: Financial implications of Chance and Community Chest, money when passing Go, Tax squares, pay to leave Jail (after 3 failed attempts at doubles).
+3. TO DO: Other financial parts of the game. Deed buying, house building, rent calculation and collection.
 4. TO DO: Simulate players with different strategies. For example, players with preference for buying certain sets of properties, different appetites for risk taking (how much of their cash they will spend on houses, etc.).
 
 #### Installation
@@ -26,6 +27,14 @@ python one_player_on_board.py 1000000 False
 The 1st parameter is how many turns the player will take. `False` for the 2nd parameter tells the program to not send detailed info about the player's movement to stdout.
 
 ![Frequencies after 1M turns](https://github.com/johntelforduk/monopoly-simulation/blob/master/docs/frequencies_after_1M_turns.png)
+
+#### To Calculate Average Money Player Has After Each Turn
+```
+python money_after_each_turn.py 50 1000 False
+```
+The 1st parameter is how many turns the player will take each game. 2nd parameter is number of games to be analysed. `False` for the 2nd parameter tells the program to not send detailed info about the player's movement to stdout.
+
+![Money after each turn](https://github.com/johntelforduk/monopoly-simulation/blob/master/docs/money_after_each_turn.png)
 
 #### Class Diagram
 There is a class diagram [here](https://github.com/johntelforduk/monopoly-simulation/blob/master/docs/monopoly_class_diagram.jpeg).

@@ -5,6 +5,8 @@ import board
 import cards
 import player
 import game
+import rotate_list
+import curried_percentile as cp
 import unittest                                 # These tests based on, https://docs.python.org/3/library/unittest.html
 
 
@@ -140,7 +142,7 @@ class TestPlayer(unittest.TestCase):
 
     def test_player(self):
 
-        test_player = player.Player()
+        test_player = player.Player(1)
 
         # Test that default values for some attributes are correct for newly created player.
         self.assertEqual(test_player.money, 1500)
@@ -254,6 +256,29 @@ class TestGame(unittest.TestCase):
 
         # Pack should have grown by 1 card due to Get Out Of Jail Free card being returned to it.
         self.assertEqual(len(test_game.community_chest.pack) - pack_size, 1)
+
+
+class TestRotateList(unittest.TestCase):
+
+    def test_rotate(self):
+
+        start_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        expected_liat = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
+        self.assertEqual(rotate_list.rotate(start_list), expected_liat)
+
+
+class TestCurriedPercentile(unittest.TestCase):
+
+    def test_percentile(self):
+
+        test_list1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+        self.assertEqual(cp.curry_percentile(30)(test_list1), 3)
+
+        test_list2 = [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]]
+        test_percentiles = list(map(cp.curry_percentile(30), test_list2))
+        self.assertEqual(test_percentiles, [3, 300])
 
 
 if __name__ == '__main__':

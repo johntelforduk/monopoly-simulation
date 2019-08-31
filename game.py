@@ -16,7 +16,7 @@ class Game:
         # Make a list of players.
         self.players = []                       # Each element is a player object.
         for i in range(num_players):
-            self.players.append(player.Player())
+            self.players.append(player.Player(player_num=i + 1))
 
         self.board = board.Board()              # The game needs a board...
         self.dice = dice.TwoDice()              # ...and some dice.
@@ -41,7 +41,8 @@ class Game:
 
     def print_player_status(self, this_player: player.Player):
         """Print a line of status info about the player to stdout."""
-        print('Square =', self.player_square_name(this_player), end='')
+        print('Money = £', this_player.money,
+              '   Square = ', self.player_square_name(this_player), sep='', end='')
         if this_player.in_jail:
             print(' (in jail).')
         else:
@@ -65,7 +66,7 @@ class Game:
            taking actions due to square landed on (Go To Jail, Chance, etc.), or just trying to leave Jail."""
 
         if self.verbose:
-            print('\nNew turn.  ', end='')
+            print('\nNew turn.   Player # =', this_player.player_num, end='   ')
             self.print_player_status(this_player)
 
         turn_continues = True                       # Set this to False when the turn is over.
@@ -76,10 +77,10 @@ class Game:
 
             # Check if player is in jail, and trying getting out of jail if they are.
             if this_player.in_jail:
-                this_trow = self.try_to_leave_jail(this_player)
+                this_throw = self.try_to_leave_jail(this_player)
                 if this_player.in_jail:
                     turn_continues = False
-                if this_trow != 0:                      # Only way to get out of jail is to throw a double.
+                if this_throw != 0:                      # Only way to get out of jail is to throw a double.
                     doubles_in_turn += 1
 
             # If they are still in Jail, then the turn is over.
@@ -104,7 +105,14 @@ class Game:
 
                 # At last, we can move the player forward according to the latest dice throw.
                 else:
+                    old_square = this_player.square
                     this_player.square = self.board.forwards(current=this_player.square, spaces=self.dice.this_throw)
+
+                    # If the square that the player has landed on has a lower index than the one he started on,
+                    # then he must he passed Go during this move.
+                    if this_player.square < old_square:
+                        self.passed_go(this_player)
+
                     self.player_put_on_square(this_player)      # Update stats, print player status.
 
                     # Take action depending on the type of square they've landed on.
@@ -121,11 +129,11 @@ class Game:
         # Add to stats about squares that turns end on.
         self.turn_end_count[this_player.square] += 1
 
+        # Update list of money at end of each turn.
+        this_player.money_at_end_of_turn.append(this_player.money)
+
         if self.verbose:
             print('Turn over.')
-
-    # TODO Add method - player_passed_go
-    #  It will increase the player's money by £200 (or £100 if they currently have loan from bank).
 
     def advance_to_square(self, this_player: player.Player, target_square: str) -> bool:
         """Move the parm player directly to the parm square.
@@ -138,11 +146,18 @@ class Game:
 
         new_square = this_player.square
 
-        # TODO If the player passed Go due to this move, make call to player_passed_go()
-
         # If the square that the player has advanced to has a lower index than the one he started on,
         # then he must he passed Go during this move.
         return new_square < curr_square
+
+    def passed_go(self, this_player: player.Player):
+        """Gives the player some money for passing Go."""
+        reward = 200
+        this_player.money += reward
+        # TODO Increase money by just £100 if they currently have a loan from the bank.
+
+        if self.verbose:
+            print('Passed Go, reward = £', reward, sep='')
 
     def go_to_jail(self, this_player: player.Player):
         """Send the parameter player to Jail."""
@@ -181,14 +196,16 @@ class Game:
                 print('Used a Get Of Jail Free Card to leave Jail.')
             return 0
 
-        # Let the player out if he has made three attempts already.
+        # Let the player out (with fine) if he has made three attempts already.
         if this_player.double_attempts_left == 0:
+            this_player.money -= 50                     # Player pays £50 fine to leave jail.
+
             this_player.in_jail = False
             # TODO If the player fails to roll doubles for three turns, he or she must pay the $50 fine and then
             #  moves the number shown on the dice or skip one turn.
 
             if self.verbose:
-                print('Let out of Jail because they have made 3 attempts at doubles already.')
+                print('Let out of Jail because they have made 3 attempts at doubles already, £50 fine.')
 
             return 0
 
@@ -227,7 +244,13 @@ class Game:
             if square_before_action != this_player.square:
                 self.landed_on_a_square(this_player)
 
-        # TODO Need to add actions for Tax squares, Go, Properties, Stations and Utilities.
+        # If player has landed on a tax square, reduce his money by tax amount.
+        elif this_square.name == 'Income Tax (pay £200)':
+            this_player.money -= 200
+        elif this_square.name == 'Super Tax (pay £100)':
+            this_player.money -= 100
+
+        # TODO Need to add actions for Go, Properties, Stations and Utilities.
 
     def land_on_action_square(self, this_player: player.Player, this_square: board.Square):
         """Player has landed on either Chance or Community Chest.
@@ -248,16 +271,24 @@ class Game:
 
         if action_card.category == 'Keep Card':                 # If it is a keep card, then the player should take it.
             this_player.add_card(action_card)
+
         elif action_card.category == 'Jail':                    # If Go To Jail, send the player to Jail.
             self.go_to_jail(this_player)
+
         elif action_card.category == 'Advance':                 # If Advance, send the player to the named square.
-            self.advance_to_square(this_player, action_card.advance_to)
+            just_passed_go = self.advance_to_square(this_player, action_card.advance_to)
+            if just_passed_go:
+                self.passed_go(this_player)                     # Give the player £200 (or £100 if borrowing from bank)
+
         elif action_card.card_name == 'Go back three spaces':   # Move player back 3 squares.
             this_player.square = self.board.backwards(current=this_player.square, spaces=3)
             self.player_put_on_square(this_player)  # Update stats, print player status.
         elif action_card.card_name == 'Go back to Old Kent Road':   # Send player to Old Kent Road.
             this_player.square = self.board.find_square('Old Kent Road')
             self.player_put_on_square(this_player)  # Update stats, print player status.
+
+        elif action_card.category == 'Money':                   # If Money card, adjust player's money.
+            this_player.money += action_card.money_amount
 
         # Except for keep cards, put the card back into its pack.
         if action_card.category != 'Keep Card':
