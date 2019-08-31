@@ -4,14 +4,16 @@ import cards                            # Needed to provide type information for
 
 class Player:
 
-    def __init__(self):
+    def __init__(self, player_num: int):
 
-        self.money = 1500
+        self.player_num = player_num    # Player number, eg. 1, 2, 3, 4, etc.
+        self.money = 1500               # Starting amount of money is £1500.
         self.square = 0                 # Players start the game on square zero, which is Go.
         self.in_jail = False            # Players start the same out of jail.
         self.double_attempts_left = 0   # When player is in Jail, number of attempts at double to escape left.
         self.deeds = []                 # No deeds for player yet.
         self.cards = []                 # No Chance or Community Chest cards yet.
+        self.money_at_end_of_turn =[]
 
         # TODO add list of desired_properties.
 

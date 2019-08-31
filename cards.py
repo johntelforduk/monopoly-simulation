@@ -26,7 +26,7 @@ class Card:
         print('Card =', self.card_name, '  Category =', self.category, end='')
 
         if self.category == 'Money':
-            print('   Money Amount =', self.money_amount)
+            print('   Money Amount = £', self.money_amount, sep='')
         elif self.category == 'Advance':
             print('   To =', self.advance_to)
         else:
